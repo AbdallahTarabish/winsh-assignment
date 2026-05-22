@@ -8,10 +8,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Src\Domain\Order\DataTransferObjects\OrderSnapshot;
 use Src\Domain\Order\Enums\OrderStatus;
 
-/**
- * The gateway into the Order domain. Everything other domains are allowed to
- * know about orders is expressed here; the Eloquent entity stays internal.
- */
 interface OrderContract
 {
     /**
@@ -26,7 +22,6 @@ interface OrderContract
 
     /**
      * Lock the order row FOR UPDATE and return a snapshot, or null if missing.
-     * MUST be called inside a database transaction.
      */
     public function lockForAssignment(int $orderId): ?OrderSnapshot;
 
@@ -37,9 +32,7 @@ interface OrderContract
 
     /**
      * Of the given driver ids, those that currently hold an active
-     * (assigned/in-progress) order. Scoped to the candidate set — never the
-     * whole fleet.
-     *
+     * (assigned/in-progress) order.
      * @param  array<int, int>  $driverIds
      * @return array<int, int>
      */
