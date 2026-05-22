@@ -13,7 +13,7 @@ class OrderServiceProvider extends ServiceProvider
      * Consumers depend on the Contract only; the concrete service stays internal.
      */
     public array $bindings = [
-        // \Src\Domain\Order\Contracts\OrderContract::class => \Src\Domain\Order\Services\OrderService::class,
+        \Src\Domain\Order\Contracts\OrderContract::class => \Src\Domain\Order\Services\OrderService::class,
     ];
 
     public function register(): void
