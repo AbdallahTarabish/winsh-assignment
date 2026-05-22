@@ -13,7 +13,7 @@ class DispatchServiceProvider extends ServiceProvider
      * Dispatch orchestrates assignment and depends on Order/Driver via their Contracts only.
      */
     public array $bindings = [
-        // \Src\Domain\Dispatch\Contracts\DispatchContract::class => \Src\Domain\Dispatch\Services\DispatchService::class,
+        \Src\Domain\Dispatch\Contracts\OrderAssignmentContract::class => \Src\Domain\Dispatch\Actions\AssignOrderToDriverAction::class,
     ];
 
     public function register(): void
