@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Src\Presentation\Api\Controllers\DriverOrderController;
+use Src\Presentation\Api\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
-| WINCH API routes (Presentation\Api bounded context)
+| WINCH API routes
 |--------------------------------------------------------------------------
-| Loaded by ApiRouteServiceProvider under the "api" middleware group and
-| the "/api" prefix. Domain endpoints are added per feature.
 */
 
 Route::get('/ping', fn () => response()->json([
@@ -19,5 +18,7 @@ Route::get('/ping', fn () => response()->json([
 ]));
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', fn (Request $request) => $request->user());
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::post('/orders/{order}/assign', [OrderController::class, 'assign'])->whereNumber('order');
+    Route::get('/drivers/{driver}/orders', [DriverOrderController::class, 'index'])->whereNumber('driver');
 });

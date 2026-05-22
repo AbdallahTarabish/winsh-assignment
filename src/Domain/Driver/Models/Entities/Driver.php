@@ -13,8 +13,7 @@ use Src\Domain\Driver\Enums\DriverStatus;
  * @property int $id
  * @property string $name
  * @property DriverStatus $status
- * @property float|null $lat
- * @property float|null $lng
+ * @property string|null $location
  */
 class Driver extends Model
 {
@@ -26,14 +25,11 @@ class Driver extends Model
     protected $fillable = [
         'name',
         'status',
-        'lat',
-        'lng',
+        'location',
     ];
 
     protected $casts = [
         'status' => DriverStatus::class,
-        'lat' => 'float',
-        'lng' => 'float',
     ];
 
     protected static function newFactory(): DriverFactory

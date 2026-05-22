@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,12 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('status')->default('offline');
-            $table->decimal('lat', 10, 7)->nullable();
-            $table->decimal('lng', 10, 7)->nullable();
             $table->timestamps();
 
-            $table->index('status');  // the assignment query filters on status, then sorts the small
+            $table->index('status');
         });
+
+        // PostGIS geography point + GiST index. Created via raw DDL so the
+        // exact type/SRID is explicit; the GiST index is what drives the
+        // `<->` KNN ordering in the nearest-driver query.
+        DB::statement('ALTER TABLE drivers ADD COLUMN location geography(Point, 4326)');
+        DB::statement('CREATE INDEX drivers_location_gix ON drivers USING GIST (location)');
     }
 
     public function down(): void

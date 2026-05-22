@@ -12,12 +12,6 @@ enum OrderStatus: string
     case Completed = 'completed';
     case Cancelled = 'cancelled';
 
-    /**
-     * Statuses that mean a driver is currently committed to the order.
-     * A driver holding an order in any of these cannot take a new one.
-     *
-     * @return array<int, self>
-     */
     public static function active(): array
     {
         return [self::Assigned, self::InProgress];
