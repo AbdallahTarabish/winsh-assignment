@@ -21,11 +21,14 @@ class DriverFactory extends Factory
 
     public function definition(): array
     {
+        $lat = self::CENTER_LAT + fake()->randomFloat(5, -0.05, 0.05);
+        $lng = self::CENTER_LNG + fake()->randomFloat(5, -0.05, 0.05);
+
         return [
             'name' => fake()->name(),
             'status' => DriverStatus::Online,
-            'lat' => self::CENTER_LAT + fake()->randomFloat(5, -0.05, 0.05),
-            'lng' => self::CENTER_LNG + fake()->randomFloat(5, -0.05, 0.05),
+            // EWKT — PostGIS parses this on insert into the geography column.
+            'location' => sprintf('SRID=4326;POINT(%.7f %.7f)', $lng, $lat),
         ];
     }
 
